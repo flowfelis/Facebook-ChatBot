@@ -5,5 +5,6 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello():
-    return "1533763697"
+def index():
+    sha = request.args.get("sha1")
+    return sha
