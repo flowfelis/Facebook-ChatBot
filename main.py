@@ -15,7 +15,7 @@ def verify():
 
 @app.route('/', methods=['POST'])
 def receive():
-    data = request.get_json()
+    data = request.get_json() # cannot return this
     return data
 
 
