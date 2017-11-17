@@ -18,8 +18,7 @@ def receive():
     data = request.get_json() # cannot return this
     app.logger.debug(data)
 
-    return data
-
+    return 'data'
 
 if __name__ == '__main__':
     app.run(debug=True)
