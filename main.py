@@ -27,6 +27,7 @@ def receive():
         except Exception as e:
             print(traceback.format_exc())
     elif request.method == 'GET':
+        return 'Get from bla bla'
 
 if __name__ == '__main__':
     app.run(debug=True)
