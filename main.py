@@ -34,7 +34,7 @@ def receive():
     sender_id = data['entry'][0]['messaging'][0]['sender']['id']
     receive_text = data['entry'][0]['messaging'][0]['message']['text']
 
-    print(json.dumps(tone_analyzer.tone(tone_input=receive_text,
+    print(json.dumps(tone_analyzer.tone(tone_input=receive_text, tones="emotion", sentences=True,
         content_type="text/plain"), indent=2))
 
     send_text = "Hi There!"
