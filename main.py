@@ -13,7 +13,6 @@ def index():
     if request.args.get('hub.verify_token') == verify_token:
         return request.args.get('hub.challenge')
     else:
-        # return redirect('https://www.google.com')
         return "<h1>Welcome to ChatBot App.</h1> <h4>Please go to Facebook and find " \
         "Mr. Chat Bot for a fun chit-chat :)</h4><quote>Developed By Flowfelis</quote>"
 
