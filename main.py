@@ -2,6 +2,12 @@ import os
 import requests
 import traceback
 from flask import Flask, request, redirect
+from watson_developer_cloud import ToneAnalyzerV3
+
+tone_analyzer = ToneAnalyzerV3(
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD',
+    version='2017-09-26')
 
 page_token = os.environ.get('PAGE_ACCESS_TOKEN')
 verify_token = os.environ.get('VERIFY_TOKEN')
