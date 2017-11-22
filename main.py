@@ -36,8 +36,19 @@ def receive():
     sender_id = data['entry'][0]['messaging'][0]['sender']['id']
     receive_text = data['entry'][0]['messaging'][0]['message']['text']
 
-    print(json.dumps(tone_analyzer.tone(tone_input=receive_text, tones="emotion", sentences=True,
-        content_type="text/plain"), indent=2))
+    tone_data = tone_analyzer.tone(tone_input=receive_text, sentences=False,
+        content_type="text/plain")
+
+    # print(json.dumps(tone_analyzer.tone(tone_input=receive_text, tones='emotion',
+        # sentences=False, content_type="text/plain"), indent=2))
+
+    # collect emotions
+    emotions = ['anger', 'fear', 'joy', 'sadness']
+    tones = tone_data['document_tone']['tones']
+    import pdb; pdb.set_trace()
+
+    # for emo in tones:
+
 
     send_text = "Hi There!"
 
