@@ -15,8 +15,10 @@ tone_analyzer = ToneAnalyzerV3(
     password = 'oe8mEef2JXQv',
     version = '2017-09-26')
 
-page_token = os.environ.get('PAGE_ACCESS_TOKEN')
-verify_token = os.environ.get('VERIFY_TOKEN')
+# page_token = os.environ.get('PAGE_ACCESS_TOKEN')
+# verify_token = os.environ.get('VERIFY_TOKEN')
+page_token = 'EAAKW1Cjtl8IBALKCaKVaQXUpEQ1Bb8Ki7bSVEOl0T7DCKpfdgRdmOC3BUfKmxxxN8zAL0HVZB3zGhhLWGYGnwreOnSTmGFbN6ewCDSsXZB91JI1PQAxjUfPsAcQ9CEpwXZA3UMizQ5Hz9ZAXqQ7ePyEoMxgewrnaWGKrnVoFxQZDZD'
+verify_token = 'myToken'
 app = Flask(__name__)
 
 
