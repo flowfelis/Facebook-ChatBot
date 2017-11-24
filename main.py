@@ -2,6 +2,7 @@ import os
 import json
 import requests
 import traceback
+import logging
 from flask import Flask, request, redirect
 from watson_developer_cloud import ToneAnalyzerV3
 
@@ -20,6 +21,30 @@ tone_analyzer = ToneAnalyzerV3(
 page_token = 'EAAKW1Cjtl8IBALKCaKVaQXUpEQ1Bb8Ki7bSVEOl0T7DCKpfdgRdmOC3BUfKmxxxN8zAL0HVZB3zGhhLWGYGnwreOnSTmGFbN6ewCDSsXZB91JI1PQAxjUfPsAcQ9CEpwXZA3UMizQ5Hz9ZAXqQ7ePyEoMxgewrnaWGKrnVoFxQZDZD'
 verify_token = 'myToken'
 app = Flask(__name__)
+
+class Bot():
+    """Bot class"""
+    def __init__(self, result):
+        try:
+            self.result = result[0]
+        except Exception as e:
+            self.result = None
+        self.answers = {
+            'positive': 'Oh, that\'s very kind of you',
+            'neutral': 'Interesting. Ok.',
+            'negative': 'I feel so bad about what you wrote',
+            }
+        self.positiveEmotions = ['joy']
+        self.negativeEmotions = ['anger', 'fear', 'sadness']
+
+    def giveAnswer(self):
+        """This is returning the final answer"""
+        if self.result in self.negativeEmotions:
+            return self.answers['negative']
+        elif self.result in self.positiveEmotions:
+            return self.answers['positive']
+        else:
+            return self.answers['neutral']
 
 
 @app.route('/')
@@ -42,15 +67,24 @@ def receive():
     # print(json.dumps(tone_analyzer.tone(tone_input=receive_text, tones='emotion',
         # sentences=False, content_type="text/plain"), indent=2))
 
-    # collect emotions
-    emotions = ['anger', 'fear', 'joy', 'sadness']
+    # collect emotions from tones
+    emotions = ['anger', 'fear', 'sadness', 'joy']
     tones = tone_data['document_tone']['tones']
-    import pdb; pdb.set_trace()
 
-    # for emo in tones:
+    # use list comprehension
+    # [ expression for item in list if conditional ]
+    result = [i['tone_id'] for i in tones if i['tone_id'] in emotions]
+    bot = Bot(result)
+    print(bot.giveAnswer())
 
 
-    send_text = "Hi There!"
+    # for tone in tones:
+    #     tone_id = tone['tone_id']
+    #
+    #     score = tone['score']
+
+
+    send_text = bot.giveAnswer()
 
     payload = {'recipient': {'id': sender_id}, 'message': {'text': send_text}}
 
