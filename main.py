@@ -84,7 +84,8 @@ def receive():
     #     score = tone['score']
 
 
-    send_text = bot.giveAnswer()
+    # send_text = bot.giveAnswer()
+    send_text = "Happy Birthday Mamuszkaaa!!! :) im grateful that you were born and I had a chance to meet my life partner, you know who that is? my son's mother!!. Now our family is growing (or should i say the Earth is  peopling 🙂 with Alan Watts' terms) Anyway , new titles will be earned, new challenges will occur, and we will overcome them together with a team work. Like always. Her zaman. Therefore, don't worry about coming days, like before, we will go through together 😗 lov ya ma babiis"
 
     payload = {'recipient': {'id': sender_id}, 'message': {'text': send_text}}
 
