@@ -21,6 +21,7 @@ verify_token = 'myToken'
 app = Flask(__name__)
 app.secret_key = 'my_unique_secret_key'
 
+
 try:
     moodLevel
 except Exception as e:
