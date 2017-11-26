@@ -1,9 +1,7 @@
 import os
 import json
 import requests
-import traceback
-import logging
-from flask import Flask, request, redirect, session
+from flask import Flask, request, redirect
 from watson_developer_cloud import ToneAnalyzerV3
 
 # tone_analyzer = ToneAnalyzerV3(
@@ -23,6 +21,10 @@ verify_token = 'myToken'
 app = Flask(__name__)
 app.secret_key = 'my_unique_secret_key'
 
+try:
+    moodLevel
+except Exception as e:
+    moodLevel = 0
 
 
 class Bot():
@@ -39,7 +41,6 @@ class Bot():
             }
         self.positiveEmotions = ['joy']
         self.negativeEmotions = ['anger', 'fear', 'sadness']
-        # self.mood = 0
 
 
     def reply(self):
@@ -53,15 +54,21 @@ class Bot():
 
     def evalMood(self):
         """Evaluate Mood (positive, negative, neutral)"""
-        try:
-            mood
-        except Exception as e:
-            mood = 0
+        global moodLevel
         if self.result in self.negativeEmotions:
-            mood -= 1
-        if self.result in self.positiveEmotions:
-            mood += 1
+            moodLevel -= 1
+        elif self.result in self.positiveEmotions:
+            moodLevel += 1
+        return moodLevel
 
+    def getMood(self):
+        moodLev = self.evalMood()
+        if moodLev > 0:
+            return 'positive'
+        elif moodLev < 0:
+            return 'negative'
+        else:
+            return 'neutral'
 
 
 @app.route('/')
@@ -74,33 +81,28 @@ def index():
 
 @app.route('/', methods=['POST'])
 def receive():
-    global mood
+    global moodLevel
     data = request.get_json()
     sender_id = data['entry'][0]['messaging'][0]['sender']['id']
     receive_text = data['entry'][0]['messaging'][0]['message']['text']
 
     tone_data = tone_analyzer.tone(tone_input=receive_text, sentences=False,
-        content_type="text/plain")
-
-    # print(json.dumps(tone_analyzer.tone(tone_input=receive_text, tones='emotion',
-        # sentences=False, content_type="text/plain"), indent=2))
-
-    # collect emotions from tones
+    content_type="text/plain")
     emotions = ['anger', 'fear', 'sadness', 'joy']
     tones = tone_data['document_tone']['tones']
-
-    # use list comprehension
-    # [ expression for item in list if conditional ]
     result = [i['tone_id'] for i in tones if i['tone_id'] in emotions]
     bot = Bot(result)
-    bot.evalMood()
-    # print(session['mood'])
-    print(mood)
 
-    send_text = bot.reply()
+    if receive_text == 'mood':
+        moodText = bot.getMood()
+        print(moodText)
+        send_text = moodText
+    else:
+        bot.evalMood()
+        print("Mood Level is: {}".format(moodLevel))
+        send_text = bot.reply()
 
     payload = {'recipient': {'id': sender_id}, 'message': {'text': send_text}}
-
     r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + page_token, json=payload)
     return 'Message Sent'
 
