@@ -23,6 +23,8 @@ verify_token = 'myToken'
 app = Flask(__name__)
 app.secret_key = 'my_unique_secret_key'
 
+
+
 class Bot():
     """Bot class"""
     def __init__(self, result):
@@ -51,11 +53,14 @@ class Bot():
 
     def evalMood(self):
         """Evaluate Mood (positive, negative, neutral)"""
-        session['mood'] = 0
+        try:
+            mood
+        except Exception as e:
+            mood = 0
         if self.result in self.negativeEmotions:
-            session['mood'] -= 1
+            mood -= 1
         if self.result in self.positiveEmotions:
-            session['mood'] += 1
+            mood += 1
 
 
 
@@ -69,6 +74,7 @@ def index():
 
 @app.route('/', methods=['POST'])
 def receive():
+    global mood
     data = request.get_json()
     sender_id = data['entry'][0]['messaging'][0]['sender']['id']
     receive_text = data['entry'][0]['messaging'][0]['message']['text']
@@ -88,7 +94,8 @@ def receive():
     result = [i['tone_id'] for i in tones if i['tone_id'] in emotions]
     bot = Bot(result)
     bot.evalMood()
-    print(session['mood'])
+    # print(session['mood'])
+    print(mood)
 
     send_text = bot.reply()
 
