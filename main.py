@@ -3,7 +3,7 @@ import json
 import requests
 import traceback
 import logging
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, session
 from watson_developer_cloud import ToneAnalyzerV3
 
 # tone_analyzer = ToneAnalyzerV3(
@@ -21,6 +21,7 @@ tone_analyzer = ToneAnalyzerV3(
 page_token = 'EAAKW1Cjtl8IBALKCaKVaQXUpEQ1Bb8Ki7bSVEOl0T7DCKpfdgRdmOC3BUfKmxxxN8zAL0HVZB3zGhhLWGYGnwreOnSTmGFbN6ewCDSsXZB91JI1PQAxjUfPsAcQ9CEpwXZA3UMizQ5Hz9ZAXqQ7ePyEoMxgewrnaWGKrnVoFxQZDZD'
 verify_token = 'myToken'
 app = Flask(__name__)
+app.secret_key = 'my_unique_secret_key'
 
 class Bot():
     """Bot class"""
@@ -36,8 +37,10 @@ class Bot():
             }
         self.positiveEmotions = ['joy']
         self.negativeEmotions = ['anger', 'fear', 'sadness']
+        # self.mood = 0
 
-    def giveAnswer(self):
+
+    def reply(self):
         """This is returning the final answer"""
         if self.result in self.negativeEmotions:
             return self.answers['negative']
@@ -45,6 +48,15 @@ class Bot():
             return self.answers['positive']
         else:
             return self.answers['neutral']
+
+    def evalMood(self):
+        """Evaluate Mood (positive, negative, neutral)"""
+        session['mood'] = 0
+        if self.result in self.negativeEmotions:
+            session['mood'] -= 1
+        if self.result in self.positiveEmotions:
+            session['mood'] += 1
+
 
 
 @app.route('/')
@@ -75,16 +87,10 @@ def receive():
     # [ expression for item in list if conditional ]
     result = [i['tone_id'] for i in tones if i['tone_id'] in emotions]
     bot = Bot(result)
-    print(bot.giveAnswer())
+    bot.evalMood()
+    print(session['mood'])
 
-
-    # for tone in tones:
-    #     tone_id = tone['tone_id']
-    #
-    #     score = tone['score']
-
-
-    send_text = bot.giveAnswer()
+    send_text = bot.reply()
 
     payload = {'recipient': {'id': sender_id}, 'message': {'text': send_text}}
 
