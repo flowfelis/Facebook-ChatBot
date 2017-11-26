@@ -100,7 +100,7 @@ def receive():
     else:
         bot.evalMood()
         print("Mood Level is: {}".format(moodLevel))
-        send_text = bot.reply()
+        send_text = bot.reply() + moodLevel
 
     payload = {'recipient': {'id': sender_id}, 'message': {'text': send_text}}
     r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + page_token, json=payload)
