@@ -17,7 +17,7 @@ tone_analyzer = ToneAnalyzerV3(
 page_token = os.environ.get('PAGE_ACCESS_TOKEN')
 verify_token = os.environ.get('VERIFY_TOKEN')
 # page_token = 'EAAKW1Cjtl8IBALKCaKVaQXUpEQ1Bb8Ki7bSVEOl0T7DCKpfdgRdmOC3BUfKmxxxN8zAL0HVZB3zGhhLWGYGnwreOnSTmGFbN6ewCDSsXZB91JI1PQAxjUfPsAcQ9CEpwXZA3UMizQ5Hz9ZAXqQ7ePyEoMxgewrnaWGKrnVoFxQZDZD'
-# verify_token = 'myToken'
+# verify_token = 'chatBotToken'
 app = Flask(__name__)
 app.secret_key = 'my_unique_secret_key'
 
