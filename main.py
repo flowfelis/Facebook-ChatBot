@@ -5,21 +5,6 @@ from flask import Flask, request, redirect
 from watson_developer_cloud import ToneAnalyzerV3
 
 tone_analyzer = ToneAnalyzerV3(
-<<<<<<< HEAD
-    username = os.environ.get('TONE_USERNAME'),
-    password = os.environ.get('TONE_PASSWORD'),
-    version = os.environ.get('TONE_VERSION'))
-
-# tone_analyzer = ToneAnalyzerV3(
-#     username = 'bf4d9c4a-a8d3-4599-97b5-63ea77b665d6',
-#     password = 'oe8mEef2JXQv',
-#     version = '2017-09-26')
-
-page_token = os.environ.get('PAGE_ACCESS_TOKEN')
-verify_token = os.environ.get('VERIFY_TOKEN')
-# page_token = 'EAAKW1Cjtl8IBALKCaKVaQXUpEQ1Bb8Ki7bSVEOl0T7DCKpfdgRdmOC3BUfKmxxxN8zAL0HVZB3zGhhLWGYGnwreOnSTmGFbN6ewCDSsXZB91JI1PQAxjUfPsAcQ9CEpwXZA3UMizQ5Hz9ZAXqQ7ePyEoMxgewrnaWGKrnVoFxQZDZD'
-# verify_token = 'myToken'
-=======
     username = 'bf4d9c4a-a8d3-4599-97b5-63ea77b665d6',
     password = 'oe8mEef2JXQv',
     version = '2017-09-26')
@@ -28,7 +13,6 @@ verify_token = os.environ.get('VERIFY_TOKEN')
 # verify_token = os.environ.get('VERIFY_TOKEN')
 page_token = 'EAAKW1Cjtl8IBALKCaKVaQXUpEQ1Bb8Ki7bSVEOl0T7DCKpfdgRdmOC3BUfKmxxxN8zAL0HVZB3zGhhLWGYGnwreOnSTmGFbN6ewCDSsXZB91JI1PQAxjUfPsAcQ9CEpwXZA3UMizQ5Hz9ZAXqQ7ePyEoMxgewrnaWGKrnVoFxQZDZD'
 verify_token = 'chatBotToken'
->>>>>>> inlineVariables
 app = Flask(__name__)
 app.secret_key = 'my_unique_secret_key'
 
