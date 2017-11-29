@@ -1,3 +1,5 @@
+import os
+
 class Bot():
     """Bot class"""
     def __init__(self, result):
