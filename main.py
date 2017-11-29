@@ -3,6 +3,8 @@ import json
 import requests
 from flask import Flask, request, redirect
 from watson_developer_cloud import ToneAnalyzerV3
+from bot import Bot
+
 
 tone_analyzer = ToneAnalyzerV3(
     username = os.environ.get('TONE_USERNAME'),
@@ -12,70 +14,8 @@ tone_analyzer = ToneAnalyzerV3(
 page_token = os.environ.get('PAGE_ACCESS_TOKEN')
 verify_token = os.environ.get('VERIFY_TOKEN')
 
-# tone_analyzer = ToneAnalyzerV3(
-#     username = 'bf4d9c4a-a8d3-4599-97b5-63ea77b665d6',
-#     password = 'oe8mEef2JXQv',
-#     version = '2017-09-26')
-
-# page_token = 'EAAKW1Cjtl8IBALKCaKVaQXUpEQ1Bb8Ki7bSVEOl0T7DCKpfdgRdmOC3BUfKmxxxN8zAL0HVZB3zGhhLWGYGnwreOnSTmGFbN6ewCDSsXZB91JI1PQAxjUfPsAcQ9CEpwXZA3UMizQ5Hz9ZAXqQ7ePyEoMxgewrnaWGKrnVoFxQZDZD'
-# verify_token = 'chatBotToken'
 
 app = Flask(__name__)
-
-class Bot():
-    """Bot class"""
-    def __init__(self, result):
-        try:
-            self.result = result[0]
-        except Exception as e:
-            self.result = None
-        self.answers = {
-            'positive': 'Oh, that\'s very kind of you',
-            'neutral': 'Interesting. Ok.',
-            'negative': 'I feel so bad about what you wrote',
-            }
-        self.positiveEmotions = ['joy']
-        self.negativeEmotions = ['anger', 'fear', 'sadness']
-        self.path = os.getcwd() + '/moodCounter.txt'
-
-
-    def reply(self):
-        """This is returning the final answer"""
-        if self.result in self.negativeEmotions:
-            return self.answers['negative']
-        elif self.result in self.positiveEmotions:
-            return self.answers['positive']
-        else:
-            return self.answers['neutral']
-
-    def evalMood(self):
-        """Evaluate Mood (positive, negative, neutral)"""
-        moodLevel = self.readFile()
-        if self.result in self.negativeEmotions:
-            moodLevel -= 1
-        elif self.result in self.positiveEmotions:
-            moodLevel += 1
-        self.writeFile(moodLevel)
-
-    def getMood(self):
-        moodLev = self.readFile()
-        if moodLev > 0:
-            return 'positive'
-        elif moodLev < 0:
-            return 'negative'
-        else:
-            return 'neutral'
-
-    def readFile(self):
-        handle = open(self.path, 'r')
-        content = handle.read()
-        handle.close()
-        return int(content)
-
-    def writeFile(self, content):
-        handle = open(self.path, 'w')
-        handle.write(str(content))
-        handle.close()
 
 @app.route('/')
 def index():
@@ -111,6 +51,7 @@ def receive():
     payload = {'recipient': {'id': sender_id}, 'message': {'text': send_text}}
     r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + page_token, json=payload)
     return 'Message Sent'
+
 
 if __name__ == '__main__':
     app.run(debug=True)
