@@ -16,7 +16,6 @@ verify_token = 'chatBotToken'
 app = Flask(__name__)
 app.secret_key = 'my_unique_secret_key'
 
-
 try:
     moodLevel
 except Exception as e:
@@ -37,6 +36,7 @@ class Bot():
             }
         self.positiveEmotions = ['joy']
         self.negativeEmotions = ['anger', 'fear', 'sadness']
+        self.path = os.getcwd() + '/moodCounter.txt'
 
 
     def reply(self):
@@ -50,15 +50,15 @@ class Bot():
 
     def evalMood(self):
         """Evaluate Mood (positive, negative, neutral)"""
-        global moodLevel
+        moodLevel = self.readFile()
         if self.result in self.negativeEmotions:
             moodLevel -= 1
         elif self.result in self.positiveEmotions:
             moodLevel += 1
-        return moodLevel
+        self.writeFile(moodLevel)
 
     def getMood(self):
-        moodLev = self.evalMood()
+        moodLev = self.readFile()
         if moodLev > 0:
             return 'positive'
         elif moodLev < 0:
@@ -66,6 +66,16 @@ class Bot():
         else:
             return 'neutral'
 
+    def readFile(self):
+        handle = open(self.path, 'r')
+        content = handle.read()
+        handle.close()
+        return int(content)
+
+    def writeFile(self, content):
+        handle = open(self.path, 'w')
+        handle.write(str(content))
+        handle.close()
 
 @app.route('/')
 def index():
