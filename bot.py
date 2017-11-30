@@ -45,14 +45,9 @@ class Bot():
 
     def readFile(self):
         with open(self.path, 'r') as handle:
-
-
-        # handle = open(self.path, 'r')
             content = handle.read()
-        # handle.close()
             return int(content)
 
     def writeFile(self, content):
-        handle = open(self.path, 'w')
-        handle.write(str(content))
-        handle.close()
+        with open(self.path, 'w') as handle:
+            handle.write(str(content))
