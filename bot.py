@@ -44,7 +44,7 @@ class Bot():
             return 'neutral'
 
     def readFile(self):
-        with handle as open(self.path, 'r'):
+        with open(self.path, 'r') as handle:
 
 
         # handle = open(self.path, 'r')
