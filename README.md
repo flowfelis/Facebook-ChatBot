@@ -19,3 +19,12 @@ I used Facebook Messenger's webhook, and also IBM Watson's Tone Analyzer API and
 If user types 'mood', bot will return it's mood(positive, negative, neutral) with the mood level number.
 * user: mood
 * bot: positive / Mood Level: 1
+
+## How to run it locally?
+* clone this repo
+* install ngrok
+* run ngrok server like: ```./ngrok http 5000```
+* run flask development server like ```python3 main.py```
+* create an any page on facebook.
+* set a messenger webhook on developers.facebook.com and assign your newly created page with https(must be https, not http) url of ngrok server in terminal, and set ```chatBotToken``` as verify token
+* Then, send a message to your page, and enjoy :)
