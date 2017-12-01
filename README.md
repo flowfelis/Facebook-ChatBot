@@ -1,9 +1,8 @@
 # Facebook-ChatBot
 ## What is it?
 It's a Facebook ChatBot with mood, who understands the tone of user's message, and replies accordingly.
-
 Bot's mood is updated with every positive(+1) or negative(-1) message. User can return bot's mood by typing 'mood'. 
-I used Facebook Messenger's webhook, and also IBM Watson's Tone Analyzer API and uploaded on Heroku. Please let me know if you would like to try!
+I used Facebook Messenger's webhook, and also IBM Watson's Tone Analyzer API and uploaded on Heroku. Let me know if you would like to try!
 
 
 #### For example:
