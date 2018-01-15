@@ -1,8 +1,8 @@
 # Facebook-ChatBot
-## What is it?
-It's a Facebook ChatBot with mood, who understands the tone of user's message, and replies accordingly.
+
+Moody chatbot, who understands the tone of user's message, and replies accordingly.
 Bot's mood is updated with every positive(+1) or negative(-1) message. User can return bot's mood by typing 'mood'. 
-I used Facebook Messenger's webhook, and also IBM Watson's Tone Analyzer API and uploaded on Heroku. Let me know if you would like to try!
+I used Facebook Messenger's webhook, and also IBM Watson's Tone Analyzer API and deployed to Heroku.
 
 
 #### For example:
@@ -16,11 +16,12 @@ I used Facebook Messenger's webhook, and also IBM Watson's Tone Analyzer API and
 * bot: Interesting. Ok.
 
 #### mood
-If user types 'mood', bot will return it's mood(positive, negative, neutral) with the mood level number.
+If user types 'mood', bot will return it's mood(positive, negative, neutral) along with the mood level number.
 * user: mood
 * bot: positive / Mood Level: 1
 
-## How to run it locally?
+## Why don't you run it on your local machine?
+### Just follow the instructions
 * clone this repo
 * install ngrok
 * run ngrok server like: ```./ngrok http 5000```
